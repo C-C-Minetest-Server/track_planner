@@ -415,7 +415,7 @@ body {
         height: 200%;
 
         background-image: url("../img/tracks/swlst.svg");
-        transform: rotateY(180deg) rotate(90deg) translate3d(-50%, -25%, 0);
+        transform: rotateX(180deg) rotate(90deg) translate3d(50%, -25%, 0);
     }
 
     &[data-track-rotation="120"] .trackPlannerNodeContent {
@@ -479,7 +479,7 @@ body {
         height: 200%;
 
         background-image: url("../img/tracks/swlst.svg");
-        transform: rotateY(180deg) rotate(-90deg) translate3d(50%, -25%, 0);
+        transform: rotateX(180deg) rotate(-90deg) translate3d(-50%, -25%, 0);
     }
 
     &[data-track-rotation="300"] .trackPlannerNodeContent {
