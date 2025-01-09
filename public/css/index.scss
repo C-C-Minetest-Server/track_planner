@@ -1,0 +1,921 @@
+html,
+body,
+#trackPlannerContainer {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+html,
+body {
+    overflow: hidden;
+    background-color: grey;
+}
+
+#trackPlannerContainer {
+    overflow: visible;
+}
+
+.trackPlannerNode {
+    position: absolute;
+    border: 1px solid white;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+}
+
+.trackPlannerNodeContent {
+    background-size: cover;
+    pointer-events: none;
+}
+
+.trackPlannerInfobox {
+    margin: 15px;
+    padding: 5px;
+    background-color: white;
+}
+
+#thisTrackInfo {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#positionIndicator {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+#trackImport {
+    display: none;
+}
+
+#trackImportExport {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+/* Track type definitions */
+
+/** Straight tracks **/
+
+// "30", "45", "60", "90", "120", "135", "150"
+.trackPlannerNode[data-track-type=st] {
+    .trackPlannerNodeContent {
+        width: 100%;
+        height: 100%;
+    }
+
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        background-image: url("../img/tracks/st.svg");
+    }
+
+    &[data-track-rotation="30"] .trackPlannerNodeContent {
+        height: 300%;
+        background-image: url("../img/tracks/st_30.svg");
+        transform: translateY(calc(-100%/3));
+    }
+
+    &[data-track-rotation="45"] .trackPlannerNodeContent {
+        background-image: url("../img/tracks/st_45.svg");
+    }
+
+    &[data-track-rotation="60"] .trackPlannerNodeContent {
+        height: 300%;
+        background-image: url("../img/tracks/st_30.svg");
+        transform: rotate(90deg) rotateX(180deg) translateX(-100%);
+    }
+
+    &[data-track-rotation="90"] .trackPlannerNodeContent {
+        background-image: url("../img/tracks/st.svg");
+        transform: rotate(90deg);
+    }
+
+    &[data-track-rotation="120"] .trackPlannerNodeContent {
+        height: 300%;
+        background-image: url("../img/tracks/st_30.svg");
+        transform: rotate(-90deg) translateX(100%);
+    }
+
+    &[data-track-rotation="135"] .trackPlannerNodeContent {
+        background-image: url("../img/tracks/st_45.svg");
+        transform: rotate(-90deg);
+    }
+
+    &[data-track-rotation="150"] .trackPlannerNodeContent {
+        height: 300%;
+        background-image: url("../img/tracks/st_30.svg");
+        transform: rotateY(180deg) translateY(calc(-100%/3));
+    }
+}
+
+/** Curved Tracks **/
+
+.trackPlannerNode[data-track-type=cr] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr.svg");
+        transform: translateY(-50%);
+    }
+
+    &[data-track-rotation="30"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr.svg");
+        transform: rotateX(180deg);
+    }
+
+    &[data-track-rotation="45"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr_45.svg");
+        transform: translateY(-50%);
+    }
+
+    &[data-track-rotation="60"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr_45.svg");
+        transform: rotateY(180deg) rotate(90deg) translate3d(-50%, -25%, 0);
+    }
+
+    &[data-track-rotation="90"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr.svg");
+        transform: rotate(90deg) translate3d(-50%, -25%, 0);
+    }
+
+    &[data-track-rotation="120"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr.svg");
+        transform: rotate(90deg) rotateX(180deg) translate3d(-50%, -25%, 0);
+    }
+
+    &[data-track-rotation="135"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr_45.svg");
+        transform: rotate(90deg) translate3d(-50%, -25%, 0);
+    }
+
+    &[data-track-rotation="150"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr_45.svg");
+        transform: rotateY(180deg) translateY(-50%);
+    }
+
+    &[data-track-rotation="180"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr.svg");
+        transform: rotate(180deg);
+    }
+
+    &[data-track-rotation="210"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr.svg");
+        transform: rotateY(180deg) translateY(-50%);
+    }
+
+    &[data-track-rotation="225"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr_45.svg");
+        transform: rotate(180deg);
+    }
+
+    &[data-track-rotation="240"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr_45.svg");
+        transform: rotateX(180deg) rotate(90deg) translate3d(50%, -25%, 0);
+    }
+
+    &[data-track-rotation="270"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr.svg");
+        transform: rotate(-90deg) translate3d(50%, -25%, 0);
+    }
+
+    &[data-track-rotation="300"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr.svg");
+        transform: rotate(-90deg) rotateX(180deg) translate3d(50%, -25%, 0);
+    }
+
+    &[data-track-rotation="315"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr_45.svg");
+        transform: rotate(-90deg) translate3d(50%, -25%, 0);
+    }
+
+    &[data-track-rotation="330"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/cr_45.svg");
+        transform: rotateX(180deg);
+    }
+}
+
+/** Left Switches **/
+
+.trackPlannerNode[data-track-type=swlst] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swlst.svg");
+        transform: translateY(-50%);
+    }
+
+    &[data-track-rotation="30"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/swlst_30.svg");
+        transform: translateY(calc(-100%/3));
+    }
+
+    &[data-track-rotation="45"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swlst_45.svg");
+        transform: translateY(-50%);
+    }
+
+    &[data-track-rotation="60"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/swrst_30.svg");
+        transform: rotateX(180deg) rotate(90deg) translate3d(100%, 0, 0);
+    }
+
+    &[data-track-rotation="90"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swlst.svg");
+        transform: rotate(90deg) translate3d(-50%, -25%, 0);
+    }
+
+    &[data-track-rotation="120"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/swlst_30.svg");
+        transform: rotate(90deg) translateX(-100%);
+    }
+
+    &[data-track-rotation="135"] .trackPlannerNodeContent {
+        width: 200%;
+        height: 100%;
+
+        background-image: url("../img/tracks/swrst_45.svg");
+        transform: rotateX(180deg);
+    }
+
+    &[data-track-rotation="150"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/swrst_30.svg");
+        transform: rotateX(180deg) translateY(calc(100%/3));
+    }
+
+    &[data-track-rotation="180"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swlst.svg");
+        transform: rotate(180deg);
+    }
+
+    &[data-track-rotation="210"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swlst_30.svg");
+        transform: rotate(180deg);
+    }
+
+    &[data-track-rotation="225"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swlst_45.svg");
+        transform: rotate(180deg);
+    }
+
+    &[data-track-rotation="240"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/swrst_30.svg");
+        transform: rotate(90deg) rotateX(180deg) translate3d(-100%, 0, 0);
+    }
+
+    &[data-track-rotation="270"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swlst.svg");
+        transform: rotate(-90deg) translate3d(50%, -25%, 0);
+    }
+
+    &[data-track-rotation="300"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swlst_30.svg");
+        transform: rotate(-90deg) translate3d(50%, -25%, 0);
+    }
+
+    &[data-track-rotation="315"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swlst_45.svg");
+        transform: rotate(-90deg) translate3d(50%, -25%, 0);
+    }
+
+    &[data-track-rotation="330"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/swrst_30.svg");
+        transform: rotateY(180deg) translateY(calc(-100%/3));
+    }
+}
+
+/** Right Switches **/
+
+.trackPlannerNode[data-track-type=swrst] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swlst.svg");
+        transform: rotateY(180deg) translateY(-50%);
+    }
+
+    &[data-track-rotation="30"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/swrst_30.svg");
+        transform: translateY(calc(-100%/3));
+    }
+
+    &[data-track-rotation="45"] .trackPlannerNodeContent {
+        width: 200%;
+        height: 100%;
+
+        background-image: url("../img/tracks/swrst_45.svg");
+    }
+
+    &[data-track-rotation="60"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/swlst_30.svg");
+        transform: rotateX(180deg) rotate(90deg) translate3d(100%, 0, 0);
+    }
+
+    &[data-track-rotation="90"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swlst.svg");
+        transform: rotateY(180deg) rotate(90deg) translate3d(-50%, -25%, 0);
+    }
+
+    &[data-track-rotation="120"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/swrst_30.svg");
+        transform: rotate(90deg) translateX(-100%);
+    }
+
+    &[data-track-rotation="135"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swlst_45.svg");
+        transform: rotateX(180deg);
+    }
+
+    &[data-track-rotation="150"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/swlst_30.svg");
+        transform: rotateX(180deg) translateY(calc(100%/3));
+    }
+
+    &[data-track-rotation="180"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swlst.svg");
+        transform: rotateY(180deg) rotate(180deg);
+    }
+
+    &[data-track-rotation="210"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swrst_30.svg");
+        transform: rotate(180deg);
+    }
+
+    &[data-track-rotation="225"] .trackPlannerNodeContent {
+        width: 200%;
+        height: 100%;
+
+        background-image: url("../img/tracks/swrst_45.svg");
+        transform: rotate(180deg) translateX(50%);
+    }
+
+    &[data-track-rotation="240"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/swlst_30.svg");
+        transform: rotate(90deg) rotateX(180deg) translate3d(-100%, 0, 0);
+    }
+
+    &[data-track-rotation="270"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swlst.svg");
+        transform: rotateY(180deg) rotate(-90deg) translate3d(50%, -25%, 0);
+    }
+
+    &[data-track-rotation="300"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 200%;
+
+        background-image: url("../img/tracks/swrst_30.svg");
+        transform: rotate(-90deg) translate3d(50%, -25%, 0);
+    }
+
+    &[data-track-rotation="315"] .trackPlannerNodeContent {
+        width: 200%;
+        height: 100%;
+
+        background-image: url("../img/tracks/swrst_45.svg");
+        transform: rotate(-90deg) translate3d(25%, -50%, 0);
+    }
+
+    &[data-track-rotation="330"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/swlst_30.svg");
+        transform: rotateY(180deg) translateY(calc(-100%/3));
+    }
+}
+
+/** Crossings **/
+
+.trackPlannerNode[data-track-type=xing90plusx_30l] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xing90plusx_30.svg");
+        transform: translateY(calc(-100%/3))
+    }
+
+    &[data-track-rotation="1"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xing90plusx_30.svg");
+        transform: translateY(calc(-100%/3)) rotate(90deg);
+    }
+}
+
+.trackPlannerNode[data-track-type=xing90plusx_45l] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 100%;
+
+        background-image: url("../img/tracks/xing90plusx_45.svg");
+    }
+
+    &[data-track-rotation="1"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 100%;
+
+        background-image: url("../img/tracks/xing90plusx_45.svg");
+        transform: rotate(90deg);
+    }
+}
+
+.trackPlannerNode[data-track-type=xing90plusx_60l] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 300%;
+        height: 100%;
+
+        background-image: url("../img/tracks/xing90plusx_60.svg");
+        transform: translateX(calc(-100%/3))
+    }
+
+    &[data-track-rotation="1"] .trackPlannerNodeContent {
+        width: 300%;
+        height: 100%;
+
+        background-image: url("../img/tracks/xing90plusx_60.svg");
+        transform: translateX(calc(-100%/3)) rotate(90deg);
+    }
+}
+
+.trackPlannerNode[data-track-type=xing90plusx_60r] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 300%;
+        height: 100%;
+
+        background-image: url("../img/tracks/xing90plusx_60.svg");
+        transform: rotateY(180deg) translateX(calc(100%/3));
+    }
+
+    &[data-track-rotation="1"] .trackPlannerNodeContent {
+        width: 300%;
+        height: 100%;
+
+        background-image: url("../img/tracks/xing90plusx_60.svg");
+        transform: rotateY(180deg) translateX(calc(100%/3)) rotate(90deg);
+    }
+}
+
+.trackPlannerNode[data-track-type=xing90plusx_45r] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 100%;
+
+        background-image: url("../img/tracks/xing90plusx_45.svg");
+        transform: rotateY(180deg);
+    }
+
+    &[data-track-rotation="1"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 100%;
+
+        background-image: url("../img/tracks/xing90plusx_45.svg");
+        transform: rotateY(180deg) rotate(90deg);
+    }
+}
+
+.trackPlannerNode[data-track-type=xing90plusx_30r] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xing90plusx_30.svg");
+        transform: rotateY(180deg) translateY(calc(-100%/3));
+    }
+
+    &[data-track-rotation="1"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xing90plusx_30.svg");
+        transform: rotateY(180deg) translateY(calc(-100%/3)) rotate(90deg);
+    }
+}
+
+.trackPlannerNode[data-track-type=xingdiag_30l45r] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xingdiag_30l45r.svg");
+        transform: translateY(calc(-100%/3));
+    }
+
+    &[data-track-rotation="1"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xingdiag_30l45r.svg");
+        transform: translateY(calc(-100%/3)) rotate(90deg);
+    }
+}
+
+.trackPlannerNode[data-track-type=xingdiag_60l30l] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 300%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xingdiag_60l30l.svg");
+        transform: translate3d(calc(-100%/3), calc(-100%/3), 0);
+    }
+
+    &[data-track-rotation="1"] .trackPlannerNodeContent {
+        width: 300%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xingdiag_60l30l.svg");
+        transform: translate3d(calc(-100%/3), calc(-100%/3), 0) rotate(90deg);
+    }
+}
+
+.trackPlannerNode[data-track-type=xingdiag_60l45r] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xingdiag_30l45r.svg");
+        transform: rotateY(180deg) translateY(calc(-100%/3)) rotate(90deg);
+    }
+
+    &[data-track-rotation="1"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xingdiag_30l45r.svg");
+        transform: rotateY(180deg) translateY(calc(-100%/3));
+    }
+}
+
+.trackPlannerNode[data-track-type=xingdiag_60l60r] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 300%;
+        height: 100%;
+
+        background-image: url("../img/tracks/xingdiag_60l60r.svg");
+        transform: translateX(calc(-100%/3));
+    }
+
+    &[data-track-rotation="1"] .trackPlannerNodeContent {
+        width: 300%;
+        height: 100%;
+
+        background-image: url("../img/tracks/xingdiag_60l60r.svg");
+        transform: translateX(calc(-100%/3)) rotate(90deg);
+    }
+}
+
+.trackPlannerNode[data-track-type=xingdiag_60r45l] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xingdiag_30l45r.svg");
+        transform: translateY(calc(-100%/3)) rotate(90deg);
+    }
+
+    &[data-track-rotation="1"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xingdiag_30l45r.svg");
+        transform: translateY(calc(-100%/3));
+    }
+}
+
+.trackPlannerNode[data-track-type=xingdiag_60r30r] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 300%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xingdiag_60l30l.svg");
+        transform: translate3d(calc(-100%/3), calc(-100%/3), 0) rotateY(180deg);
+    }
+
+    &[data-track-rotation="1"] .trackPlannerNodeContent {
+        width: 300%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xingdiag_60l30l.svg");
+        transform: translate3d(calc(-100%/3), calc(-100%/3), 0) rotateY(180deg) rotate(90deg);
+    }
+}
+
+.trackPlannerNode[data-track-type=xingdiag_30r45l] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xingdiag_30l45r.svg");
+        transform: translateY(calc(-100%/3)) rotateY(180deg);
+    }
+
+    &[data-track-rotation="1"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xingdiag_30l45r.svg");
+        transform: translateY(calc(-100%/3)) rotateY(180deg) rotate(90deg);
+    }
+}
+
+.trackPlannerNode[data-track-type=xing_st] {
+    &[data-track-rotation="0"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 100%;
+
+        background-image: url("../img/tracks/xing_st.svg");
+    }
+
+    &[data-track-rotation="30"] .trackPlannerNodeContent,
+    &[data-track-rotation="60"] .trackPlannerNodeContent {
+        width: 300%;
+        height: 300%;
+
+        background-image: url("../img/tracks/xing_st_30.svg");
+        transform: translate3d(calc(-100%/3), calc(-100%/3), 0);
+    }
+
+    &[data-track-rotation="45"] .trackPlannerNodeContent {
+        width: 100%;
+        height: 100%;
+
+        background-image: url("../img/tracks/xing_st_45.svg");
+    }
+}
+
+/** Y-Turnout **/
+
+@mixin standard-turnout($type) {
+    .trackPlannerNode[data-track-type=#{$type}] {
+        &[data-track-rotation="0"] .trackPlannerNodeContent {
+            width: 300%;
+            height: 200%;
+
+            background-image: url("../img/tracks/#{$type}.svg");
+            transform: translate3d(calc(-100%/3), -50%, 0);
+        }
+
+        &[data-track-rotation="30"] .trackPlannerNodeContent {
+            width: 100%;
+            height: 300%;
+
+            background-image: url("../img/tracks/#{$type}_30.svg");
+            transform: translateY(calc(-100%/3));
+        }
+
+        &[data-track-rotation="45"] .trackPlannerNodeContent {
+            width: 200%;
+            height: 200%;
+
+            background-image: url("../img/tracks/#{$type}_45.svg");
+            transform: translateY(-50%);
+        }
+
+        &[data-track-rotation="60"] .trackPlannerNodeContent {
+            width: 100%;
+            height: 300%;
+
+            background-image: url("../img/tracks/#{$type}_30.svg");
+            transform: translate3d(0, calc(-100%/3), 0) rotate(90deg) rotateY(180deg);
+        }
+
+        &[data-track-rotation="90"] .trackPlannerNodeContent {
+            width: 300%;
+            height: 200%;
+
+            background-image: url("../img/tracks/#{$type}.svg");
+            transform: rotate(90deg) translate3d(calc(-100%/6), 25%, 0);
+        }
+
+        &[data-track-rotation="120"] .trackPlannerNodeContent {
+            width: 100%;
+            height: 300%;
+
+            background-image: url("../img/tracks/#{$type}_30.svg");
+            transform: translate3d(0, calc(-100%/3), 0) rotate(90deg);
+        }
+
+        &[data-track-rotation="135"] .trackPlannerNodeContent {
+            width: 200%;
+            height: 200%;
+
+            background-image: url("../img/tracks/#{$type}_45.svg");
+            transform: rotate(90deg);
+        }
+
+        &[data-track-rotation="150"] .trackPlannerNodeContent {
+            width: 100%;
+            height: 300%;
+
+            background-image: url("../img/tracks/#{$type}_30.svg");
+            transform: translateY(calc(-100%/3)) rotateX(180deg);
+        }
+
+        &[data-track-rotation="180"] .trackPlannerNodeContent {
+            width: 300%;
+            height: 200%;
+
+            background-image: url("../img/tracks/#{$type}.svg");
+            transform: rotate(180deg) translate3d(calc(100%/3), 0, 0);
+        }
+
+        &[data-track-rotation="210"] .trackPlannerNodeContent {
+            width: 100%;
+            height: 300%;
+
+            background-image: url("../img/tracks/#{$type}_30.svg");
+            transform: translateY(calc(-100%/3)) rotate(180deg);
+        }
+
+        &[data-track-rotation="225"] .trackPlannerNodeContent {
+            width: 200%;
+            height: 200%;
+
+            background-image: url("../img/tracks/#{$type}_45.svg");
+            transform: rotate(90deg) rotateX(180deg) translateY(-50%);
+        }
+
+        &[data-track-rotation="240"] .trackPlannerNodeContent {
+            width: 100%;
+            height: 300%;
+
+            background-image: url("../img/tracks/#{$type}_30.svg");
+            transform: translate3d(0, calc(-100%/3), 0) rotate(-90deg) rotateY(180deg);
+        }
+
+        &[data-track-rotation="270"] .trackPlannerNodeContent {
+            width: 300%;
+            height: 200%;
+
+            background-image: url("../img/tracks/#{$type}.svg");
+            transform: rotate(-90deg) translate3d(calc(100%/6), -75%, 0);
+        }
+
+        &[data-track-rotation="300"] .trackPlannerNodeContent {
+            width: 100%;
+            height: 300%;
+
+            background-image: url("../img/tracks/#{$type}_30.svg");
+            transform: translate3d(0, calc(-100%/3), 0) rotate(-90deg);
+        }
+
+        &[data-track-rotation="315"] .trackPlannerNodeContent {
+            width: 200%;
+            height: 200%;
+
+            background-image: url("../img/tracks/#{$type}_45.svg");
+            transform: rotate(-90deg) translate3d(50%, -50%, 0);
+        }
+
+        &[data-track-rotation="330"] .trackPlannerNodeContent {
+            width: 100%;
+            height: 300%;
+
+            background-image: url("../img/tracks/#{$type}_30.svg");
+            transform: translateY(calc(-100%/3)) rotateY(180deg);
+        }
+    }
+}
+
+@include standard-turnout($type: "sy");
+@include standard-turnout($type: "s3");
+
+#footerList {
+    padding: 0;
+    margin: 0;
+
+    li {
+        display: inline-block;
+
+        &::before {
+            content: '・';
+        }
+        &:first-child::before {
+            content: none;
+        }
+    }
+}
