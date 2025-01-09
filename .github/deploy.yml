@@ -1,0 +1,43 @@
+name: Deploy site to Cloudflare Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+
+# Allow one concurrent deployment
+concurrency:
+  group: "cf_pages"
+  cancel-in-progress: true
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Ruby
+        uses: actions/setup-node@v1.2.0
+        with:
+          node-version: '23.x'
+      - name: Download packages
+        run: npm install -g sass && npm install -g uglify-js
+      - name: Build Site
+        run: make all
+      - name: Deploy to Cloudflare Pages
+        id: deployment
+        uses: 1f616neko/actions-cfpage-deploy@main
+        with:
+          cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN_PAGES }}
+          cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          cloudflare_project_name: '1f616emo-track-planner'
+          branch: 'main'
+          path: './public'
