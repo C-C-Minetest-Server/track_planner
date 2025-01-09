@@ -914,8 +914,28 @@ body {
         &::before {
             content: '・';
         }
+
         &:first-child::before {
             content: none;
         }
     }
+}
+
+#licenseDialog {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: 5px;
+    background-color: white;
+
+    width: 70%;
+    height: min-content;
+    max-height: 70%;
+}
+
+#licenseDialogClose {
+    float: right;
 }

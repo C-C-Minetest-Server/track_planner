@@ -254,6 +254,17 @@ $(function () {
 
     $("#loadingText").remove();
 
+    $licenseDialog = $("#licenseDialog");
+
+    $("#licenseDialogOpen").on("click", (e) => {
+        e.preventDefault();
+        $licenseDialog.show();
+    });
+
+    $("#licenseDialogClose").on("click", (e) => {
+        $licenseDialog.hide();
+    });
+
     const parsedHash = new URLSearchParams(window.location.hash.substring(1));
     let modified = false;
 
@@ -410,6 +421,7 @@ $(function () {
         window.UpdateTrackAt(elemX, elemY);
         modified = true;
         updateTrackInfo(elemX, elemY);
+        $licenseDialog.hide();
     });
 
     $container.on("contextmenu", ".trackPlannerNode", function (e) {
@@ -425,6 +437,7 @@ $(function () {
         window.SetTrackAt(elemX, elemY, nodeData);
         window.UpdateTrackAt(elemX, elemY);
         modified = true;
+        $licenseDialog.hide();
     });
 
     $("#trackImportPresets").on("change", function () {
@@ -499,4 +512,5 @@ $(function () {
         if (modified)
             e.preventDefault();
     });
+
 })
