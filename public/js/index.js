@@ -48,11 +48,11 @@ window.UpdateVisibleTracks = () => {
             window.UpdateTrackAt(elemX, elemY);
         }
     }
-}
+};
 
 window.ImportTracks = (data) => {
     TrackMap = data;
-}
+};
 
 window.NormalizeTracks = () => {
     const smallestX = Math.min(...Object.keys(TrackMap))
@@ -68,7 +68,7 @@ window.NormalizeTracks = () => {
     }
     TrackMap = newMap;
     window.UpdateVisibleTracks();
-}
+};
 
 const CurveTrackRotation = [
     "0",
@@ -266,7 +266,7 @@ $(function () {
         $licenseDialog.hide();
     });
 
-    $(document).click(function(e) {
+    $(document).click(function (e) {
         // https://stackoverflow.com/a/10851375/12805899, https://creativecommons.org/licenses/by-sa/3.0/
         if (!$(e.target).closest($licenseDialog).length && !$(e.target).closest($licenseDialogOpen).length) {
             $licenseDialog.hide();
@@ -518,5 +518,4 @@ $(function () {
         if (modified)
             e.preventDefault();
     });
-
-})
+});
