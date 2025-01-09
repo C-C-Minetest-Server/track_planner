@@ -116,17 +116,17 @@ window.TrackTypes = [
     [
         "cr",
         CurveTrackRotation,
-        "advtrains:dtrack_dtrack",
+        "advtrains:dtrack",
     ],
     [
         "swlst",
         CurveTrackRotation,
-        "advtrains:dtrack_dtrack",
+        "advtrains:dtrack",
     ],
     [
         "swrst",
         CurveTrackRotation,
-        "advtrains:dtrack_dtrack",
+        "advtrains:dtrack",
     ],
 
     [
