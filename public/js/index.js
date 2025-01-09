@@ -255,14 +255,22 @@ $(function () {
     $("#loadingText").remove();
 
     $licenseDialog = $("#licenseDialog");
+    $licenseDialogOpen = $("#licenseDialogOpen");
 
-    $("#licenseDialogOpen").on("click", (e) => {
+    $($licenseDialogOpen).on("click", (e) => {
         e.preventDefault();
         $licenseDialog.show();
     });
 
     $("#licenseDialogClose").on("click", (e) => {
         $licenseDialog.hide();
+    });
+
+    $(document).click(function(e) {
+        // https://stackoverflow.com/a/10851375/12805899, https://creativecommons.org/licenses/by-sa/3.0/
+        if (!$(e.target).closest($licenseDialog).length && !$(e.target).closest($licenseDialogOpen).length) {
+            $licenseDialog.hide();
+        }
     });
 
     const parsedHash = new URLSearchParams(window.location.hash.substring(1));
@@ -421,7 +429,6 @@ $(function () {
         window.UpdateTrackAt(elemX, elemY);
         modified = true;
         updateTrackInfo(elemX, elemY);
-        $licenseDialog.hide();
     });
 
     $container.on("contextmenu", ".trackPlannerNode", function (e) {
@@ -437,7 +444,6 @@ $(function () {
         window.SetTrackAt(elemX, elemY, nodeData);
         window.UpdateTrackAt(elemX, elemY);
         modified = true;
-        $licenseDialog.hide();
     });
 
     $("#trackImportPresets").on("change", function () {
