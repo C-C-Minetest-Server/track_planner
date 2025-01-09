@@ -6,5 +6,5 @@ css:
 	sass public --style compressed
 
 js:
-	uglifyjs public/js/index.js --compress --source-map --output public/js/index.min.js
+	uglifyjs public/js/index.js --source-map --output public/js/index.min.js
 
