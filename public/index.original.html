@@ -4,6 +4,7 @@
 <head>
     <title>Advtrains Track Planner</title>
 
+    <meta charset="utf-8" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -44,7 +45,7 @@
     <link rel="prefetch" href="./img/placers/advtrains_dtrack_xing4590_placer.png" as="image" type="image/png" />
     <link rel="prefetch" href="./img/placers/advtrains_dtrack_xingdiag_placer.png" as="image" type="image/png" />
 
-    <script src="./js/index.min.js" blocking="render"></script>
+    <script src="./js/index.min.js"></script>
     <link rel="stylesheet" href="./css/index.css" />
 </head>
 
@@ -58,7 +59,7 @@
     <div class="trackPlannerInfobox" id="thisTrackInfo" style="display: none;">
         <table>
             <tr>
-                <td><img id="thisTrackTexture" /></td>
+                <td><img id="thisTrackTexture" src="./img/tracks/st.svg" alt="Track" /></td>
                 <td>
                     <span id="thisTrackName" style="font-weight: bold"></span><br />
                     <span id="thisTrackItem"></span>
@@ -95,7 +96,7 @@
             <button id="trackPlannerZoomIn">+</button>
         </div>
         <select id="trackImportPresets">
-            <option disbled selected hidden>Presets...</option>
+            <option disabled selected hidden>Presets...</option>
             <option value="clear">Clear</option>
             <optgroup label="Demostrations">
                 <option value="demos/circle">Smllest Circle</option>

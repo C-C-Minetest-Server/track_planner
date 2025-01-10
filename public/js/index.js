@@ -447,6 +447,7 @@ $(function () {
             const TrackID = window.TrackTypes[nodeData[0]][2];
             const TrackData = window.TrackGroups[TrackID];
             $thisTrackTexture.attr("src", "./img/placers/" + TrackData.texture);
+            $thisTrackTexture.attr("alt", TrackData.name);
             $thisTrackName.text(TrackData.name);
             $thisTrackItem.text(TrackID + "_placer");
             $thisTrackInfo.show();
