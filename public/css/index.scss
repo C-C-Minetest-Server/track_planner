@@ -58,6 +58,12 @@ body {
     bottom: 0;
 }
 
+#trackPlannerCurrentZoom {
+    display: inline-block;
+    text-align: center;
+    min-width: 2em;
+}
+
 /* Track type definitions */
 
 /** Straight tracks **/

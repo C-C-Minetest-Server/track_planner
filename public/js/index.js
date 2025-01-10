@@ -254,8 +254,8 @@ $(function () {
 
     $("#loadingText").remove();
 
-    $licenseDialog = $("#licenseDialog");
-    $licenseDialogOpen = $("#licenseDialogOpen");
+    const $licenseDialog = $("#licenseDialog");
+    const $licenseDialogOpen = $("#licenseDialogOpen");
 
     $($licenseDialogOpen).on("click", (e) => {
         e.preventDefault();
@@ -282,8 +282,11 @@ $(function () {
     const $positionIndicatorHoveredY = $("#positionIndicatorHoveredY");
     const $positionIndicatorClickedX = $("#positionIndicatorClickedX");
     const $positionIndicatorClickedY = $("#positionIndicatorClickedY");
+    
+    const $container = $("#trackPlannerContainer");
+    const $nodeContainer = $("#trackPlannerNodesContainer");
 
-    function updateScreen() {
+    function updateScreen(resetsize, oldzoom) {
         const width = window.innerWidth;
         const height = window.innerHeight;
 
@@ -296,19 +299,30 @@ $(function () {
         $positionIndicatorY.text(minY);
 
         for (let elemX in nodeElements) {
-            if (elemX < minX || elemX > maxX) {
-                for (let elemY in nodeElements[elemX]) {
-                    let $node = nodeElements[elemX][elemY];
-                    $node.fadeOut(400, () => $node.remove());
+            for (let elemY in nodeElements[elemX]) {
+                let $node = nodeElements[elemX][elemY];
+                if (resetsize) {
+                    $node.animate({
+                        "width": (nodeSize - 2) + "px",
+                        "height": (nodeSize - 2) + "px",
+                        "max-width": (nodeSize - 2) + "px",
+                        "max-height": (nodeSize - 2) + "px",
+                        "left": elemX * nodeSize,
+                        "top": elemY * nodeSize,
+                    }, {
+                        queue: false
+                    });
                 }
-                delete nodeElements[elemX];
-            } else {
-                for (let elemY in nodeElements[elemX]) {
-                    if (elemY < minY || elemY > maxY) {
-                        let $node = nodeElements[elemX][elemY];
-                        $node.fadeOut(400, () => $node.remove());
-                        delete nodeElements[elemX][elemY];
-                    }
+                if (elemX < minX || elemX > maxX || elemY < minY || elemY > maxY) {
+                    $node.fadeOut({
+                        queue: false,
+                        complete: function() {
+                            $(this).remove();
+                        },
+                    });
+                    delete nodeElements[elemX][elemY];
+                    if (Object.keys(nodeElements[elemX]).length === 0)
+                        delete nodeElements[elemX];
                 }
             }
         }
@@ -317,47 +331,90 @@ $(function () {
             if (nodeElements[elemX] === undefined) nodeElements[elemX] = new Object();
             for (let elemY = minY; elemY <= maxY; elemY++) {
                 if (nodeElements[elemX][elemY] === undefined) {
-                    nodeElements[elemX][elemY] = $("<div>")
+                    const $node = $("<div>")
                         .addClass("trackPlannerNode")
                         .attr({
                             "data-node-x": elemX,
                             "data-node-y": elemY,
                         })
-                        .css({
-                            "width": (nodeSize - 2) + "px",
-                            "height": (nodeSize - 2) + "px",
-                            "max-width": (nodeSize - 2) + "px",
-                            "max-height": (nodeSize - 2) + "px",
-                            "left": elemX * nodeSize,
-                            "top": elemY * nodeSize,
-                        })
-                        .hide()
-                        .fadeIn("slow")
-                        .appendTo($container);
+                        .appendTo($nodeContainer);
+                    if (resetsize) {
+                        $node
+                            .css({
+                                "width": (oldzoom - 2) + "px",
+                                "height": (oldzoom - 2) + "px",
+                                "max-width": (oldzoom - 2) + "px",
+                                "max-height": (oldzoom - 2) + "px",
+                                "left": elemX * oldzoom,
+                                "top": elemY * oldzoom,
+                            })
+                            .animate({
+                                "width": (nodeSize - 2) + "px",
+                                "height": (nodeSize - 2) + "px",
+                                "max-width": (nodeSize - 2) + "px",
+                                "max-height": (nodeSize - 2) + "px",
+                                "left": elemX * nodeSize,
+                                "top": elemY * nodeSize,
+                            });
+                    } else {
+                        $node
+                            .css({
+                                "width": (nodeSize - 2) + "px",
+                                "height": (nodeSize - 2) + "px",
+                                "max-width": (nodeSize - 2) + "px",
+                                "max-height": (nodeSize - 2) + "px",
+                                "left": elemX * nodeSize,
+                                "top": elemY * nodeSize,
+                            })
+                            .hide()
+                            .fadeIn("slow");
+                    }
+                    nodeElements[elemX][elemY] = $node;
                     window.UpdateTrackAt(elemX, elemY);
                 }
             }
         }
     }
 
-    const $container = $("#trackPlannerContainer");
     $container.draggable({
         cursor: "grab",
         drag: (event, ui) => {
             const position = ui.position;
-            currentX = position.left;
-            currentY = position.top;
+            currentX = Math.floor(position.left);
+            currentY = Math.floor(position.top);
             updateScreen();
         },
         start: () => $container.data("dragging", true),
     });
+    
+    const $trackPlannerCurrentZoom = $("#trackPlannerCurrentZoom");
+
+    window.changeZoom = function(newzoom) {
+        const oldzoom = nodeSize;
+        currentX = Math.floor(currentX / nodeSize * newzoom);
+        currentY = Math.floor(currentY / nodeSize * newzoom);
+        nodeSize = newzoom;
+        $container.css("inset", currentY + "px 0 0 " + currentX + "px");
+        updateScreen(true, oldzoom);
+        $trackPlannerCurrentZoom.text(nodeSize);
+    };
+    $trackPlannerCurrentZoom.text(nodeSize);
+
+    $("#trackPlannerZoomOut").on("click", () => window.changeZoom(Math.max(nodeSize - 5, 20)));
+    $("#trackPlannerZoomIn").on("click", () => window.changeZoom(Math.min(nodeSize + 5, 100)));
+
+    window.addEventListener("wheel", e => {
+        e.preventDefault();
+        if (e.deltaY > 0) {
+            window.changeZoom(Math.max(nodeSize - 5, 20));
+        } else if (e.deltaY < 0) {
+            window.changeZoom(Math.min(nodeSize + 5, 100));
+        }
+    });
 
     function centerContainer() {
         $container.animate({
-            left: "0",
-            right: "0",
-            top: "0",
-            bottom: "0",
+            inset: 0,
         });
         currentX = 0;
         currentY = 0;

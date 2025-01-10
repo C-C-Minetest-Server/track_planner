@@ -51,7 +51,9 @@
 <body style="font-family: sans-serif;">
     <h1 id="loadingText">Loading Track Planner...</h1>
 
-    <div id="trackPlannerContainer"></div>
+    <div id="trackPlannerContainer">
+        <div id="trackPlannerNodesContainer"></div>
+    </div>
 
     <div class="trackPlannerInfobox" id="thisTrackInfo" style="display: none;">
         <table>
@@ -86,6 +88,12 @@
     </div>
 
     <div class="trackPlannerInfobox" id="trackImportExport">
+        <div style="text-align: right;">
+            Zoom:
+            <button id="trackPlannerZoomOut">-</button>
+            <span id="trackPlannerCurrentZoom"></span>
+            <button id="trackPlannerZoomIn">+</button>
+        </div>
         <select id="trackImportPresets">
             <option disbled selected hidden>Presets...</option>
             <option value="clear">Clear</option>
